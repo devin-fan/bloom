@@ -1,7 +1,8 @@
 .Card {
     height: auto;
     width: 100%;
-    min-height: 400px;
+    min-width: 450px;
+    min-height: 450px;
     box-shadow: 0px 20px 50px rgba(0,0,0,0.25);
     position: sticky;
     top: 40px;
@@ -10,45 +11,26 @@
 }
 
 .Card .info {
-    width: 50%;
     height: auto;
-    position: relative;
-}
-
-.Card .header {
-    position: relative;
-    min-height: 200px;
-    width: 100%;
-    min-width: 400px;
+    width: 50%;
+    min-width: 450px;
     float: left;
 }
 
-.Card .header .header-position {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-}
-
-.Card .description {
+.Card .info h1 {
     position: relative;
-    width: 100%;
-    height: 200px;
-    min-width: 400px;
-    float: left;
+    margin: 10% 0 0 10%;
 }
 
-.Card .description p {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
+.Card .info .description {
+    position: relative;
     font-size: 16pt;
+    margin: 20% 0 0 10%;
 }
 
 .Card .image {
-    position: relative;
+    min-height: 450px;
+    min-width: 450px;
     width: 50%;
-    min-width: 400px;
     float: left;
 }
