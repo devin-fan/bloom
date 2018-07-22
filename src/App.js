@@ -49,7 +49,10 @@ class App extends Component {
      }
 
     scrollToWork() {
-        scrollToComponent(this.Work, { offset: -40, align: 'top', duration: 1000})
+        let rect = document.getElementById("Work").getBoundingClientRect()
+        if (rect.top > 0 || rect.bottom <= 0) {
+            scrollToComponent(this.Work, { offset: -40, align: 'top', duration: 1000})
+        }
     }
 
     scrollToPlay(event) {

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import scrollToComponent from 'react-scroll-to-component';
+import { Motion, spring } from 'react-motion';
 import './App.css';
 import './Gallery.css';
-import Card from './Card.js'
-import logo from './logo.svg'
+import Card from './Card.js';
+import logo from './logo.svg';
 
 class Gallery extends Component {
 
@@ -11,16 +12,41 @@ class Gallery extends Component {
         super(props)
         this.state = {
             scrolldir: 0,
-            prevScroll: 0
+            prevScroll: 0,
+            displayingCard: [false]
         }
         this.Card = []
+        this.Display = []
         this._timeout = null
         this.handleScroll = this.handleScroll.bind(this)
         this.readjustScroll = this.readjustScroll.bind(this)
+        this.handleClickCard = this.handleClickCard.bind(this)
+        this.toggleDisplay = this.toggleDisplay.bind(this)
     }
 
     componentDidMount() {
         document.addEventListener("scroll", this.handleScroll)
+    }
+
+    handleClickCard(itemid) {
+        document.body.style.overflow = "hidden" 
+        let display = this.Display[itemid]
+        display.style.display = "block"
+        let displayState = this.state.displayingCard
+        displayState[itemid] = true
+        this.setState({ displayingCard: displayState})
+    }
+
+    handleClickDisplay(itemid) {
+        document.body.style.overflow = "auto"
+        let displayState = this.state.displayingCard
+        displayState[itemid] = false
+        this.setState({ displayingCard: displayState})
+    }
+
+    toggleDisplay(itemid) {
+        let display = this.Display[itemid]
+        display.style.display = this.state.displayingCard[itemid] ? "block" : "none"
     }
 
     readjustScroll(scrollY) {
@@ -62,16 +88,36 @@ class Gallery extends Component {
      }
 
     render() {
+        const springconfig = { stiffness: 100, damping: 15};
         return (
             <div>
                 <div id="Gallery">
-                    <Card ref={(section) => { this.Card.push(section); }} title={"Devin's Project"} image={logo} description={"Look how pretty it looks when you can see the description of this project! Isn't it amazing?! - Devin"}/>
+                    <Card 
+                        ref={(section) => { this.Card.push(section); }} 
+                        handler={this.handleClickCard.bind(this, 0)}
+                        title={"Devin's Project"} image={logo} 
+                        description={"Look how pretty it looks when you can see the description of this project! Isn't it amazing?! - Devin"}
+                    />
                     <Card ref={(section) => { this.Card.push(section); }}/>
                     <Card ref={(section) => { this.Card.push(section); }}/>
                     <Card ref={(section) => { this.Card.push(section); }}/>
                 </div>
                 <div id="Display">
-                    <div className="display"></div>
+                    <Motion
+                        style={{ top: spring(this.state.displayingCard[0] ? 0 : 100, springconfig)}}
+                        onRest={this.toggleDisplay.bind(this, 0)}
+                    >
+                        {style => 
+                            <div 
+                                className="display" 
+                                style={{transform:`translateY(${style.top}vh)`}}
+                                ref={(section) => { this.Display.push(section); }}
+                                onClick={this.handleClickDisplay.bind(this, 0)}
+                            >
+                                <div className="display-content"></div>
+                            </div>
+                        }
+                    </Motion>
                 </div>
             </div>
         );

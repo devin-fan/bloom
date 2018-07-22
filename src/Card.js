@@ -19,7 +19,7 @@ class Card extends Component {
     render() {
         const softspring = { stiffness: 25, damping: 25};
         return (
-            <div className="Card" onMouseEnter={this.handleMouseEnter}>
+            <div className="Card" onMouseEnter={this.handleMouseEnter} onClick={this.props.handler}>
                 <Motion
                     style={{
                         opacity: spring(this.state.hover ? 0.8 : 0, softspring)
