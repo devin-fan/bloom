@@ -1,0 +1,15 @@
+#Intro {
+    z-index: 100;
+}
+#Intro #description {
+    width: 50%;
+    margin: auto;
+    position: sticky;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#description p {
+    font-size: 32pt;
+    line-height-step: 16pt;
+}
