@@ -5,6 +5,7 @@ import Card from './Card.js'
 import logo from './logo.svg'
 
 class Gallery extends Component {
+
     render() {
         return (
             <div id="Gallery">
