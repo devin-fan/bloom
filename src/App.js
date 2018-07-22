@@ -9,8 +9,13 @@ class App extends Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            scrolldir: 0,
+            prevScroll: 0
+        }
         this._timeout = null
         this.handleScroll = this.handleScroll.bind(this)
+        this.readjustScroll = this.readjustScroll.bind(this)
     }
 
     componentDidMount() {
@@ -18,20 +23,29 @@ class App extends Component {
     }
 
     readjustScroll(scrollY) {
-        let gallery = document.getElementById("Work").getBoundingClientRect()
-        if (scrollY > 100 && scrollY < gallery.top) {
-            scrollToComponent(this.Work, { offset: -40, align: 'top', duration: 1000})
-        }
+        let gallery = document.getElementById("Work")
+        let galleryrect = gallery.getBoundingClientRect()
+        if (scrollY > 100 && galleryrect.y > 140) {
+            if (this.state.scrolldir > 0) {
+                scrollToComponent(this.Work, { offset: -40, align: 'top', duration: 1000})
+            } else {
+                scrollToComponent(this.Intro, { offset: 0, align: 'top', duration: 1000})
+            }
+        } 
     }
 
     handleScroll(event) {
+        this.setState({
+            prevScroll: window.scrollY,
+            scrolldir: Math.sign(window.scrollY - this.state.prevScroll)
+        })
         if(this._timeout){ //if there is already a timeout in process cancel it
             clearTimeout(this._timeout);
         }
         this._timeout = setTimeout(() => {
             this._timeout = null;
             this.readjustScroll(window.scrollY)
-        }, 100);
+        }, 25);
      }
 
     scrollToWork() {
@@ -56,7 +70,7 @@ class App extends Component {
                     </ul>
                 </div>
 
-                <Intro />
+                <Intro ref={(section) => { this.Intro = section; }} />
 
                 <Work ref={(section) => { this.Work = section; }}/>
             
